@@ -7,5 +7,13 @@ output: github_document
 # Problem 1
 
 ```{r}
-1 + 1
+data("penguins", package = "palmerpenguins")
 ```
+
+The `penguins` dataset contains variables including `r paste(names(penguins), collapse = ", ")`. One important categorical variable is `species`, which contains the values `r paste(unique(na.omit(penguins$species)), collapse = ", ")`.
+The species variable contains the values `r unique(na.omit(penguins$species))`.
+
+
+
+The `penguins` dataset contains measurements of individual penguins. The measurements include variables of  `r colnames(penguins)`.
+ contains `r nrow(penguins)` rows and `r ncol(penguins)` columns.
