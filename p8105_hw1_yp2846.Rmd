@@ -10,10 +10,67 @@ output: github_document
 data("penguins", package = "palmerpenguins")
 ```
 
-The `penguins` dataset contains variables including `r paste(names(penguins), collapse = ", ")`. One important categorical variable is `species`, which contains the values `r paste(unique(na.omit(penguins$species)), collapse = ", ")`.
-The species variable contains the values `r unique(na.omit(penguins$species))`.
+The `penguins` dataset contains measurements of individual penguins. The measurements include variables of  `r colnames(penguins)`.The species variable contains the values `r unique(na.omit(penguins$species))`.
 
+The dataset consturcted by `r nrow(penguins)` rows and `r ncol(penguins)` columns.
 
+The mean flipper length is `r mean(penguins$flipper_length_mm, na.rm = TRUE)` mm.
 
-The `penguins` dataset contains measurements of individual penguins. The measurements include variables of  `r colnames(penguins)`.
- contains `r nrow(penguins)` rows and `r ncol(penguins)` columns.
+```{r}
+library(ggplot2)
+
+ggplot(
+  penguins,
+  aes(
+    x = bill_length_mm,
+    y= flipper_length_mm,
+    color = species
+  ) 
+)+geom_point()
+  
+ggsave("penguins_scatterplot.png")
+```
+
+# Problem 2
+```{r}
+library(tidyverse)
+df= tibble(
+  normal_sample = rnorm(10),
+  logical_vector = normal_sample > 0,
+  character_vector =  c(
+    "a","b","c","d","e","f","g","h","i","j"
+  ),
+  factor_vector = factor(
+    c(
+      "low","medium","high",
+      "low","medium","high",
+      "low","medium","high",
+      "low"
+    )
+  )
+)
+```
+
+```{r}
+mean(pull(df, normal_sample))
+mean(pull(df, logical_vector))
+mean(pull(df, character_vector))
+mean(pull(df, factor_vector))
+
+```
+
+For numerical and logical variables, mean value can be calculated while mean value of character vector and factor vector can't. 
+
+```{r,results = "hide"}
+as.numeric(df$logical_vector)
+as.numeric(df$character_vector)
+as.numeric(df$factor_vector)
+```
+
+Applying `as.numeric()` to the logical variable converts `TRUE` to 1 and `FALSE` to 0 because R can coerce logical values into numeric values for arithmetic operations. This explains why taking the mean of a logical vector works.
+
+Applying `as.numeric()` to the character variable produces `NA` values because strings such as `"a"` and `"b"` do not contain numeric information that R can interpret as numbers. Since `mean()` requires numeric or logical input, it cannot calculate a meaningful mean for this character vector.
+
+Applying `as.numeric()` to the factor variable returns the internal integer codes corresponding to the factor levels because factors are stored internally using integer codes with labels attached to them. In this case, the levels are ordered as `"high"`, `"low"`, and `"medium"`, so they are coded as 1, 2, and 3, respectively. These numbers represent category labels rather than quantitative measurements, so calculating their mean would not be meaningful.
+
+Therefore, coercion helps explain why `mean()` works for logical variables but not directly for character or factor variables.
