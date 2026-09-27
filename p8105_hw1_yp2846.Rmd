@@ -13,8 +13,7 @@ library(tidyverse)
 data("penguins", package = "palmerpenguins")
 ```
 
-The `penguins` dataset contains measurements of individual penguins. Important variables include  `r colnames(penguins)`.The species variable contains the values `r unique(na.omit(penguins$species))`.
-The `island` variable contains the values `r unique(na.omit(penguins$island))`.
+The `penguins` dataset contains measurements of individual penguins. Important variables include  `r colnames(penguins)`. The species variable contains the values `r unique(na.omit(penguins$species))`. The `island` variable contains the values `r unique(na.omit(penguins$island))`.
 
 The dataset contains `r nrow(penguins)` rows and `r ncol(penguins)` columns.
 
